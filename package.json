@@ -1,0 +1,61 @@
+{
+  "name": "Project-Invoice",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.10.0",
+    "@sap-cloud-sdk/http-client": "^3.18.0",
+    "@sap-cloud-sdk/resilience": "^3.18.0",
+    "@sap/cds": "^7",
+    "express": "^4",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/ux-specification": "^1.120.17"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-billing": "cds watch --open billing/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "fiori": {
+      "lean_draft": true,
+      "bypass_draft": true
+    },
+    "requires": {
+      "db": {
+        "imp": "@cap-js/postgres",
+        "pool": {
+          "max": 20
+        }
+      },
+      "auth": {
+        "[production]": {
+          "strategy": "JWT"
+        },
+        "[test]": {
+          "strategy": "mock"
+        }
+      },
+      "API_BILLING_DOCUMENT_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BILLING_DOCUMENT_SRV",
+        "csrf": true,
+        "csrfInBatch": true,
+        "[production]": {
+          "credentials": {
+            "destination": "S4HANA",
+            "path": "/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV"
+          }
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/billing"
+  ]
+}
