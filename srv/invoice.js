@@ -46,48 +46,50 @@ module.exports = cds.service.impl(async function () {
       req.error(502, "Error during request to remote service");
     }
   });
-
-  this.on("BillingFetch", "Billing", async (req) => {
-    try {
-      await cds.tx(async () => {
-        console.log("Executing BillingFetch action");
-
-        // Uncomment the following code for the actual fetch logic
-
-        // // Fetch the last synchronization date
-        // const lastsyncdate1 = await cds.run(SELECT.one.from('Billing').columns('LastChangeDateTime').orderBy('LastChangeDateTime desc'));
-
-        // let billlastsyncdatetime;
-        // if (lastsyncdate1) {
-        //     billlastsyncdatetime = lastsyncdate1.LastChangeDateTime;
-        // }
-
-        // // Count and fetch billing documents based on last sync date
-        // let countbilldocs;
-        // let billdocqry = SELECT.from('Billing');
-        // if (billlastsyncdatetime) {
-        //     countbilldocs = await billingapi.send({ method: 'GET', path: `A_BillingDocument/$count?$filter=LastChangeDateTime gt datetimeoffset'${billlastsyncdatetime}'` });
-        //     billdocqry = billdocqry.where({ LastChangeDateTime: { gt: billlastsyncdatetime } });
-        // } else {
-        //     countbilldocs = await billingapi.send({ method: 'GET', path: 'A_BillingDocument/$count' });
-        // }
-
-        // // Process in batches of 5000
-        // let batchSize = 5000;
-        // for (let i = 0; i < countbilldocs; i += batchSize) {
-        //     billdocqry = billdocqry.limit(batchSize, i);
-        //     const results = await billingapi.run(billdocqry);
-        //     console.log(`Processing Batch ${i} of ${countbilldocs} records`);
-        //     await cds.run(UPSERT.into('Billing').entries(results));
-        // }
-      });
-
-      return true;
-    } catch (error) {
-      console.error("Error during fetch operation:", error);
-      req.error(500, "Error during fetch operation");
-    }
+  this.on("BillingFetch", async (req) => {
+    console.log("---");
+    return true;
   });
+  // this.on("BillingFetch", "Billing", async (req) => {
+  //   try {
+  //     await cds.tx(async () => {
+  //       console.log("Executing BillingFetch action");
+  //       // Uncomment the following code for the actual fetch logic
+
+  //       // // Fetch the last synchronization date
+  //       // const lastsyncdate1 = await cds.run(SELECT.one.from('Billing').columns('LastChangeDateTime').orderBy('LastChangeDateTime desc'));
+
+  //       // let billlastsyncdatetime;
+  //       // if (lastsyncdate1) {
+  //       //     billlastsyncdatetime = lastsyncdate1.LastChangeDateTime;
+  //       // }
+
+  //       // // Count and fetch billing documents based on last sync date
+  //       // let countbilldocs;
+  //       // let billdocqry = SELECT.from('Billing');
+  //       // if (billlastsyncdatetime) {
+  //       //     countbilldocs = await billingapi.send({ method: 'GET', path: `A_BillingDocument/$count?$filter=LastChangeDateTime gt datetimeoffset'${billlastsyncdatetime}'` });
+  //       //     billdocqry = billdocqry.where({ LastChangeDateTime: { gt: billlastsyncdatetime } });
+  //       // } else {
+  //       //     countbilldocs = await billingapi.send({ method: 'GET', path: 'A_BillingDocument/$count' });
+  //       // }
+
+  //       // // Process in batches of 5000
+  //       // let batchSize = 5000;
+  //       // for (let i = 0; i < countbilldocs; i += batchSize) {
+  //       //     billdocqry = billdocqry.limit(batchSize, i);
+  //       //     const results = await billingapi.run(billdocqry);
+  //       //     console.log(`Processing Batch ${i} of ${countbilldocs} records`);
+  //       //     await cds.run(UPSERT.into('Billing').entries(results));
+  //       // }
+  //     });
+
+  //     return true;
+  //   } catch (error) {
+  //     console.error("Error during fetch operation:", error);
+  //     req.error(500, "Error during fetch operation");
+  //   }
+  // });
 
   this.before("READ", ["Billing", "BillingItems"], async (req) => {
     try {

@@ -29,9 +29,8 @@ service satinfotech @(requires: 'authenticated-user') {
     }
 
    
- entity Billing as projection on db.Billing actions {
-        action BillingFetch() returns Boolean;
-    }
+ entity Billing as projection on db.Billing;
+  action BillingFetch() returns Boolean;
 }
 
 // Enable draft support for Billing entity
