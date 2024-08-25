@@ -1,36 +1,3 @@
-// sap.ui.define(
-//   [
-//     "sap/m/MessageBox",
-//     "sap/ui/core/library",
-//     "sap/ui/core/BusyIndicator",
-//     "sap/m/MessageToast",
-//   ],
-//   function (MessageBox, coreLibrary, BusyIndicator) {
-//     "use strict";
-//     return {
-//       fetch: function (oBindingContext, aSelectedContexts) {
-//         $.ajax({
-//           url: "/odata/v4/satinfotech/BillingFetch",
-//           type: "POST",
-//           contentType: "application/json",
-//           success: function (response) {
-//             BusyIndicator.hide();
-//             if (response && response.count !== undefined) {
-//               MessageBox.success(
-//                 `Data submitted successfully. Count of billing documents: ${response.count}`
-//               );
-//             } else {
-//               MessageBox.success("Data submitted successfully.");
-//             }
-//           },
-//           error: function (error) {
-//             MessageBox.error("Error occurred while submitting data.");
-//           },
-//         });
-//       },
-//     };
-//   }
-// );
 sap.ui.define(
   [
     "sap/m/MessageBox",
@@ -74,7 +41,6 @@ sap.ui.define(
               response.value &&
               typeof response.value === "object"
             ) {
-              // OData v4 might wrap the response in a 'value' property
               response = response.value;
             }
 
